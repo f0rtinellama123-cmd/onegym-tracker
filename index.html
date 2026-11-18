@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="OneGym Ryhope strength training, workout logging and muscle recovery tracker.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>ONEGYM TRACKER</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-view="dashboard"><span class="brand-mark">OG</span><span><b>ONEGYM</b><small>STRENGTH TRACKER</small></span></a>
+      <nav class="nav">
+        <button class="nav-btn active" data-view="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-btn" data-view="workout">＋ <span>Log workout</span></button>
+        <button class="nav-btn" data-view="recovery">◉ <span>Muscle recovery</span></button>
+        <button class="nav-btn" data-view="exercises">▤ <span>Exercise library</span></button>
+        <button class="nav-btn" data-view="history">◷ <span>Workout history</span></button>
+        <button class="nav-btn" data-view="settings">⚙ <span>Data & settings</span></button>
+      </nav>
+      <div class="side-foot"><span class="live-dot"></span> LOCAL TRACKER <small>Data stays on this device</small></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">ONEGYM RYHOPE · TRAINING LOG</div><h1 id="page-title">Dashboard</h1></div>
+        <button class="primary-btn compact" data-action="new-workout">＋ <span>Log session</span></button>
+      </header>
+
+      <section id="view-dashboard" class="view active">
+        <div class="hero panel">
+          <div><div class="eyebrow red">YOUR TRAINING, IN ONE PLACE</div><h2>Build strength.<br><em>Track everything.</em></h2><p>Log your work, monitor estimated recovery and see your progress over time.</p><button class="primary-btn" data-action="new-workout">Start a workout <span>→</span></button></div>
+          <div class="hero-orbit"><div class="orbit-ring"></div><div class="orbit-core">OG<span>TRACK</span></div></div>
+        </div>
+        <div class="stat-grid">
+          <article class="stat panel"><span>WORKOUTS LOGGED</span><strong id="stat-workouts">0</strong><small>All recorded sessions</small></article>
+          <article class="stat panel"><span>EXERCISES LOGGED</span><strong id="stat-exercises">0</strong><small>Total exercise entries</small></article>
+          <article class="stat panel"><span>VOLUME LIFTED</span><strong id="stat-volume">0 <i>kg</i></strong><small>Logged weight × reps</small></article>
+          <article class="stat panel"><span>PERSONAL RECORDS</span><strong id="stat-prs">0</strong><small>Best logged weight per exercise</small></article>
+        </div>
+        <div class="two-col">
+          <article class="panel section-panel"><div class="section-head"><div><div class="eyebrow">LIVE ESTIMATES</div><h3>Muscle recovery</h3></div><button class="text-btn" data-view="recovery">View all →</button></div><div id="dashboard-recovery" class="recovery-list"></div></article>
+          <article class="panel section-panel"><div class="section-head"><div><div class="eyebrow">RECENT ACTIVITY</div><h3>Latest sessions</h3></div><button class="text-btn" data-view="history">History →</button></div><div id="recent-sessions" class="recent-list"></div></article>
+        </div>
+        <article class="panel section-panel"><div class="section-head"><div><div class="eyebrow">YOUR GYM</div><h3>OneGym Ryhope equipment</h3></div><button class="text-btn" data-view="exercises">Open library →</button></div><div class="equipment-strip" id="equipment-strip"></div><p class="muted note">Known machines are identified by brand/model where available. Other entries are general equipment categories and can be edited as you confirm the exact floor inventory.</p></article>
+      </section>
+
+      <section id="view-workout" class="view">
+        <div class="panel section-panel">
+          <div class="section-head"><div><div class="eyebrow">SESSION BUILDER</div><h3>Log your workout</h3></div><span class="pill">SAVED ON DEVICE</span></div>
+          <div class="form-grid">
+            <label>Session name<input id="session-name" placeholder="e.g. Full body A"></label>
+            <label>Date<input id="session-date" type="date"></label>
+            <label>Notes<input id="session-notes" placeholder="Optional session notes"></label>
+          </div>
+          <div class="divider"></div>
+          <div class="section-head"><div><div class="eyebrow">EXERCISE ENTRIES</div><h3>Exercises & sets</h3></div><button class="secondary-btn" id="add-exercise">＋ Add exercise</button></div>
+          <div id="workout-exercises"></div>
+          <div class="workout-footer"><span id="workout-summary" class="muted">0 exercises · 0 sets</span><button class="primary-btn" id="save-workout">Save workout <span>→</span></button></div>
+        </div>
+      </section>
+
+      <section id="view-recovery" class="view">
+        <div class="panel section-panel">
+          <div class="section-head"><div><div class="eyebrow">RECOVERY MODEL</div><h3>Muscle recovery status</h3></div><span class="pill">ESTIMATED</span></div>
+          <p class="muted">Estimates are based on logged hard sets and time since training. They are a planning aid, not a measurement of tissue repair or readiness. Your sleep, soreness, performance and general wellbeing matter too.</p>
+          <div id="recovery-full" class="recovery-grid"></div>
+          <div class="recovery-key"><span><i class="key-dot ready"></i> Ready estimate</span><span><i class="key-dot recovering"></i> Recovering</span><span><i class="key-dot fatigued"></i> Recently trained</span></div>
+        </div>
+      </section>
+
+      <section id="view-exercises" class="view">
+        <div class="panel section-panel">
+          <div class="section-head"><div><div class="eyebrow">GYM FLOOR DATABASE</div><h3>Equipment & exercises</h3></div><button class="secondary-btn" id="add-custom-exercise">＋ Custom exercise</button></div>
+          <div class="filter-row"><input id="exercise-search" placeholder="Search exercises or equipment…"><select id="muscle-filter"><option value="">All muscle groups</option></select><select id="equipment-filter"><option value="">All equipment</option></select></div>
+          <div id="exercise-library" class="exercise-grid"></div>
+          <p class="muted note">Catalogue note: public sources do not provide a verified full machine inventory for this branch. Confirmed user-reported equipment is marked “Known at Ryhope”; broader categories are marked “Category / confirm on floor”.</p>
+        </div>
+      </section>
+
+      <section id="view-history" class="view">
+        <div class="panel section-panel">
+          <div class="section-head"><div><div class="eyebrow">TRAINING RECORD</div><h3>Workout history</h3></div><button class="text-btn" id="history-export">Export data ↓</button></div>
+          <div id="history-list"></div>
+        </div>
+      </section>
+
+      <section id="view-settings" class="view">
+        <div class="panel section-panel">
+          <div class="eyebrow">YOUR DATA</div><h3>Data & settings</h3>
+          <p class="muted">Your workouts are stored in this browser on this device. Clearing Safari website data can remove them, so export a backup regularly.</p>
+          <div class="settings-actions"><button class="secondary-btn" id="export-data">Export backup (.json)</button><label class="secondary-btn file-btn">Import backup<input id="import-data" type="file" accept="application/json"></label><button class="danger-btn" id="clear-data">Delete all local data</button></div>
+          <div class="divider"></div><h3>Recovery model settings</h3><p class="muted">Default recovery windows are broad estimates. Change them to suit your own observed response, not as a target to train through pain or exhaustion.</p>
+          <div id="recovery-settings" class="settings-grid"></div>
+          <button class="primary-btn" id="save-settings">Save recovery settings</button>
+        </div>
+      </section>
+
+      <footer>ONEGYM TRACKER <span>·</span> Independent personal training log <span>·</span> Not affiliated with OneGym</footer>
+    </main>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="exercise-modal"><form method="dialog" id="custom-exercise-form"><div class="modal-head"><h3>Add custom exercise</h3><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><label>Exercise name<input id="custom-name" required maxlength="60"></label><label>Primary muscle<select id="custom-muscle"></select></label><label>Equipment<input id="custom-equipment" placeholder="e.g. Panatta machine"></label><label>Equipment status<select id="custom-status"><option>Known at Ryhope</option><option>Category / confirm on floor</option><option>Custom / user added</option></select></label><div class="modal-actions"><button class="secondary-btn" value="cancel">Cancel</button><button class="primary-btn" id="custom-submit" value="default">Add exercise</button></div></form></dialog>
+  <script src="./app.js" defer></script>
+</body>
+</html>
